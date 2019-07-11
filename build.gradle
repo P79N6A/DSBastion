@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+}
+
+group 'functions'
+version '0.1'
+
+repositories {
+    mavenLocal()
+    maven {
+        url = 'http://repo.maven.apache.org/maven2'
+    }
+}
+test.enabled = false
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    compile 'io.netty:netty-all:4.1.35.Final'
+    compile 'org.apache.commons:commons-dbcp2:2.6.0'
+    compile 'commons-dbutils:commons-dbutils:1.7'
+    compile 'mysql:mysql-connector-java:8.0.15'
+    compile 'log4j:log4j:1.2.17'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'com.google.guava:guava:28.0-jre'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+task copyJar(type: Copy) {
+    from configurations.runtime
+    from('build/libs') {
+        include('*.jar')
+    }
+    into 'build/lib'
+}
